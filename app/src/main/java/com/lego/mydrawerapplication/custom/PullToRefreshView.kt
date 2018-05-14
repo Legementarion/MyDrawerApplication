@@ -1,15 +1,16 @@
 package com.lego.mydrawerapplication.custom
 
 import android.content.Context
-import android.view.MotionEvent
-import android.view.animation.Animation
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
 import android.view.ViewGroup
+import android.view.animation.Animation
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
 import android.view.animation.Transformation
+import com.lego.mydrawerapplication.R
 
 class PullToRefreshView(context: Context, attrs: AttributeSet? = null) : ViewGroup(context, attrs) {
 
@@ -46,9 +47,13 @@ class PullToRefreshView(context: Context, attrs: AttributeSet? = null) : ViewGro
         val density = context.resources.displayMetrics.density
         mTotalDragDistance = Math.round(DRAG_MAX_DISTANCE.toFloat() * density)
 
-        mRefreshView = RefreshView(getContext(), this)
+        mRefreshView = RefreshView(getContext())
+        mRefreshView.id = R.id.refresher
+        mRefreshView.parent = this
+        val linLayoutParam = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        mRefreshView.layoutParams = linLayoutParam
 
-        addView(mRefreshView)
+        addView(mRefreshView, 0)
         setWillNotDraw(false)
         isChildrenDrawingOrderEnabled = true
     }

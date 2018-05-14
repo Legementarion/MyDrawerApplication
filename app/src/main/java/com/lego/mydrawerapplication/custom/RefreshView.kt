@@ -1,15 +1,18 @@
 package com.lego.mydrawerapplication.custom
 
 import android.content.Context
-import android.view.animation.Animation
 import android.graphics.drawable.Animatable
+import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.Animation
 import android.view.animation.Transformation
 import com.lego.mydrawerapplication.R
 
-class RefreshView @JvmOverloads constructor(context: Context, val parent: PullToRefreshView) : View(context), Animatable {
+class RefreshView @JvmOverloads constructor(context: Context,
+                                            attributesSet: AttributeSet? = null,
+                                            defStyleAttr: Int = 0) : ViewGroup(context, attributesSet, defStyleAttr), Animatable {
 
     companion object {
         private const val ANIMATION_DURATION = 1000
@@ -33,7 +36,7 @@ class RefreshView @JvmOverloads constructor(context: Context, val parent: PullTo
     private var mLastAnimationTime: Float = 0.toFloat()
 
     private var mEndOfRefreshing: Boolean = false
-    private var view: View? = null
+    var parent: PullToRefreshView? = null
 
     private enum class AnimationPart {
         FIRST,
@@ -43,16 +46,20 @@ class RefreshView @JvmOverloads constructor(context: Context, val parent: PullTo
     }
 
     init {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        view = layoutInflater.inflate(R.layout.view_refresh, parent, false)
+        val layoutInflater = LayoutInflater.from(getContext())
+        addView(layoutInflater.inflate(R.layout.view_refresh, parent, false))
 
         initiateDimens()
         setupAnimations()
     }
 
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+
+    }
+
     private fun initiateDimens() {
         mScreenWidth = context.resources.displayMetrics.widthPixels
-        mTop = -parent.getTotalDragDistance()
+        parent?.getTotalDragDistance()?.let { mTop -= it }
     }
 
     override fun offsetTopAndBottom(offset: Int) {
@@ -136,6 +143,7 @@ class RefreshView @JvmOverloads constructor(context: Context, val parent: PullTo
 
     fun setPercent(percent: Float) {
         mPercent = percent
+        invalidate()
     }
 
     private fun resetOriginals() {
@@ -149,12 +157,12 @@ class RefreshView @JvmOverloads constructor(context: Context, val parent: PullTo
     override fun start() {
         mAnimation?.reset()
         isRefreshing = true
-        parent.startAnimation(mAnimation)
+        parent?.startAnimation(mAnimation)
         mLastAnimationTime = 0f
     }
 
     override fun stop() {
-        parent.clearAnimation()
+        parent?.clearAnimation()
         isRefreshing = false
         mEndOfRefreshing = false
         resetOriginals()

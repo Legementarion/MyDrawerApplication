@@ -1,14 +1,16 @@
 package com.lego.mydrawerapplication
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
+import android.os.Handler
 import android.support.design.widget.NavigationView
+import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import com.lego.mydrawerapplication.custom.PullToRefreshView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -34,6 +36,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         setupRv()
+        refresh.setOnRefreshListener(object : PullToRefreshView.OnRefreshListener {
+            override fun onRefresh() {
+                val handler = Handler()
+                handler.postDelayed({
+                    //Do something after 100ms
+                    refresh.setRefreshing(false)
+                }, 1500)
+            }
+        })
 
         nav_view.setNavigationItemSelectedListener(this)
     }
@@ -42,10 +53,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val guys = mutableListOf<OloloModel>()
 
         for (i in 1..100) {
-        guys.add(OloloModel("Vlad"))
-        guys.add(OloloModel("Soda"))
-        guys.add(OloloModel("Baratur"))
-    }
+            guys.add(OloloModel("Vlad"))
+            guys.add(OloloModel("Soda"))
+            guys.add(OloloModel("Baratur"))
+        }
         adapter = RvAdapter(baseContext, guys)
 
         gridLayoutManager = GridLayoutManager(baseContext, 3)
