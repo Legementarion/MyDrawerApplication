@@ -15,7 +15,7 @@ import com.lego.mydrawerapplication.R
 class PullToRefreshView(context: Context, attrs: AttributeSet? = null) : ViewGroup(context, attrs) {
 
     companion object {
-        private const val DRAG_MAX_DISTANCE = 120
+        private const val DRAG_MAX_DISTANCE = 80
         private const val DRAG_RATE = .5f
         private const val DECELERATE_INTERPOLATION_FACTOR = 2f
 
@@ -50,6 +50,8 @@ class PullToRefreshView(context: Context, attrs: AttributeSet? = null) : ViewGro
         mRefreshView = RefreshView(getContext())
         mRefreshView.id = R.id.refresher
         mRefreshView.parent = this
+        mRefreshView.initiateDimens()
+
         val linLayoutParam = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         mRefreshView.layoutParams = linLayoutParam
 
@@ -288,7 +290,6 @@ class PullToRefreshView(context: Context, attrs: AttributeSet? = null) : ViewGro
                 mRefreshView.setPercent(1f)
                 animateOffsetToCorrectPosition()
             } else {
-                mRefreshView.setEndOfRefreshing(true)
                 animateOffsetToPosition(mAnimateToEndPosition)
             }
         }
