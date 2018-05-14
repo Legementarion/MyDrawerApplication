@@ -57,10 +57,6 @@ class RefreshView @JvmOverloads constructor(context: Context,
         setupAnimations()
     }
 
-    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-
-    }
-
     private fun initiateDimens() {
         mScreenWidth = context.resources.displayMetrics.widthPixels
         parent?.getTotalDragDistance()?.let { mTop -= it }
