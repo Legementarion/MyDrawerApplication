@@ -40,7 +40,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             override fun onRefresh() {
                 val handler = Handler()
                 handler.postDelayed({
-                    //Do something after 100ms
                     refresh.setRefreshing(false)
                 }, 1500)
             }
@@ -52,7 +51,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun setupRv() {
         val guys = mutableListOf<OloloModel>()
 
-        for (i in 1..100) {
+        for (i in 1..3) {
             guys.add(OloloModel("Vlad"))
             guys.add(OloloModel("Soda"))
             guys.add(OloloModel("Baratur"))

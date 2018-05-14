@@ -74,6 +74,7 @@ class PullToRefreshView(context: Context, attrs: AttributeSet? = null) : ViewGro
         newWidthMeasureSpec = MeasureSpec.makeMeasureSpec(measuredWidth - paddingRight - paddingLeft, MeasureSpec.EXACTLY)
         newHeightMeasureSpec = MeasureSpec.makeMeasureSpec(measuredHeight - paddingTop - paddingBottom, MeasureSpec.EXACTLY)
         mTarget?.measure(newWidthMeasureSpec, newHeightMeasureSpec)
+        mRefreshView.measure(newWidthMeasureSpec, newHeightMeasureSpec)
     }
 
     private fun ensureTarget() {
@@ -82,7 +83,7 @@ class PullToRefreshView(context: Context, attrs: AttributeSet? = null) : ViewGro
         if (childCount > 0) {
             for (i in 0 until childCount) {
                 val child = getChildAt(i)
-                if (child !== mRefreshView)
+                if (child != mRefreshView)
                     mTarget = child
             }
         }

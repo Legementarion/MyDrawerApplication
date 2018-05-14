@@ -2,17 +2,18 @@ package com.lego.mydrawerapplication.custom
 
 import android.content.Context
 import android.graphics.drawable.Animatable
+import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.Transformation
+import android.widget.ProgressBar
+import android.widget.TextView
 import com.lego.mydrawerapplication.R
 
 class RefreshView @JvmOverloads constructor(context: Context,
                                             attributesSet: AttributeSet? = null,
-                                            defStyleAttr: Int = 0) : ViewGroup(context, attributesSet, defStyleAttr), Animatable {
+                                            defStyleAttr: Int = 0) : ConstraintLayout(context, attributesSet, defStyleAttr), Animatable {
 
     companion object {
         private const val ANIMATION_DURATION = 1000
@@ -37,6 +38,8 @@ class RefreshView @JvmOverloads constructor(context: Context,
 
     private var mEndOfRefreshing: Boolean = false
     var parent: PullToRefreshView? = null
+    var progressBar: ProgressBar? = null
+    var title: TextView? = null
 
     private enum class AnimationPart {
         FIRST,
@@ -46,8 +49,9 @@ class RefreshView @JvmOverloads constructor(context: Context,
     }
 
     init {
-        val layoutInflater = LayoutInflater.from(getContext())
-        addView(layoutInflater.inflate(R.layout.view_refresh, parent, false))
+        val rootView = inflate(context, R.layout.view_refresh, this)
+        progressBar = rootView.findViewById(R.id.progressBar)
+        title = rootView.findViewById(R.id.labelProgress)
 
         initiateDimens()
         setupAnimations()
