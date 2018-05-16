@@ -48,6 +48,7 @@ class RefreshView @JvmOverloads constructor(context: Context,
 
     override fun offsetTopAndBottom(offset: Int) {
         mTop += offset
+        super.offsetTopAndBottom(offset)
     }
 
     fun setPercent(percent: Float) {

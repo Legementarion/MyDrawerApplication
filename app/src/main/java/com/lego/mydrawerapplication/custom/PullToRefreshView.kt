@@ -345,7 +345,7 @@ class PullToRefreshView(context: Context, attrs: AttributeSet? = null) : ViewGro
         val bottom = paddingBottom
 
         mTarget?.layout(left, top + mCurrentOffsetTop, left + width - right, top + height - bottom + mCurrentOffsetTop)
-        mRefreshView.layout(left, top, left + width - right, top + height - bottom)
+        mRefreshView.layout(left, mRefreshView.mTop, left + width - right, mRefreshView.mTop + height - bottom)
     }
 
     fun setOnRefreshListener(listener: OnRefreshListener) {
